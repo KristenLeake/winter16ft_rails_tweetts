@@ -1,7 +1,25 @@
 <div class="well clearfix">
 	<%= render 'form' %>
 </div>
+<% if @tweets.presence %>
+<div class="panel panel-default">
+	<% @tweets.sort_by{|t| - t.created_at.to_i}.each do |tweet| %>
+		<div class="panel-heading">
+		<strong class ="username">@<%= tweet.username %></strong>	
+		<small class="pull-right"><em><%= time_ago_in_words(tweet.created_at) %> ago</em></small>
+		</div>
+		<div class="panel-body"></div>
+		
+		<div class="panel-body">
+			<%= tweet.tweet_text %>
+			<%= link_to tweet, method: :delete, data: { confirm: 'Are you sure you want to delete?' }, class: "btn btn-sm btn-default pull-right" do %> 
+			<i class="glyphicon glyphicon-trash"></i>
+		<% end %>
 
-
-<h1>Tweets#index</h1>
-<p>Find me in app/views/tweet/index.html.erb</p>
+		</div>
+	
+	<% end %>
+</div>
+<% else %>
+	<h3>There are no tweets yet!</h3>
+<% end %>
